@@ -1,18 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Generator</title>
+    <title>Générateur de CV</title>
     <link rel="stylesheet" href="style.css">
+    <!-- html2pdf library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="form-container">
-            <h1>CV Generator</h1>
+            <h1>Générateur de CV</h1>
             <form id="cvForm">
+                <h2>Informations Personnelles</h2>
                 <div class="form-group">
-                    <label for="fullName">Full Name:</label>
+                    <label for="fullName">Nom Complet:</label>
                     <input type="text" id="fullName" required>
                 </div>
 
@@ -22,31 +25,53 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="phone">Phone:</label>
+                    <label for="phone">Téléphone:</label>
                     <input type="tel" id="phone" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="education">Education:</label>
-                    <textarea id="education" required></textarea>
+                    <label for="address">Adresse:</label>
+                    <textarea id="address" required></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label for="experience">Work Experience:</label>
-                    <textarea id="experience" required></textarea>
+                    <label for="photo">Photo:</label>
+                    <input type="file" id="photo" accept="image/*">
+                    <img id="photoPreview" class="photo-preview" src="" alt="">
                 </div>
 
-                <div class="form-group">
-                    <label for="skills">Skills:</label>
-                    <textarea id="skills" required></textarea>
+                <h2>Formation</h2>
+                <div id="educationContainer">
+                    <div class="education-entry">
+                        <input type="text" placeholder="Diplôme" class="education-diploma">
+                        <input type="text" placeholder="École" class="education-school">
+                        <input type="text" placeholder="Année" class="education-year">
+                        <button type="button" class="remove-btn" onclick="Resume.removeEducation(this)">❌</button>
+                    </div>
                 </div>
+                <button type="button" onclick="Resume.addEducation()">+ Ajouter Formation</button>
 
-                <button type="submit">Generate CV</button>
+                <h2>Expérience Professionnelle</h2>
+                <div id="experienceContainer">
+                    <div class="experience-entry">
+                        <input type="text" placeholder="Poste" class="experience-position">
+                        <input type="text" placeholder="Entreprise" class="experience-company">
+                        <input type="text" placeholder="Période" class="experience-period">
+                        <textarea placeholder="Description" class="experience-description"></textarea>
+                        <button type="button" class="remove-btn" onclick="Resume.removeExperience(this)">❌</button>
+                    </div>
+                </div>
+                <button type="button" onclick="Resume.addExperience()">+ Ajouter Expérience</button>
+
+                <div class="button-group">
+                    <button type="submit">Générer CV</button>
+                    <button type="button" id="downloadPdf">Télécharger PDF</button>
+                </div>
             </form>
         </div>
 
-        <div class="cv-preview" id="cvPreview">
-            <!-- CV will be generated here -->
+        <div class="preview-container">
+            <iframe id="cvPreview" class="cv-preview"></iframe>
         </div>
     </div>
     <script src="script.js"></script>
